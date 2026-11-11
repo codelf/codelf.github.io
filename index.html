@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="fr-CA">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Nicolas Delffon. Des outils à la hauteur de votre mission.</title>
+<meta name="description" content="Conseil en données et en intelligence artificielle pour les organisations. Nicolas Delffon, Sainte-Adèle, Laurentides.">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Des outils à la hauteur de votre mission.">
+<meta property="og:description" content="Conseil en données et en intelligence artificielle pour les organisations. Nicolas Delffon, Sainte-Adèle, Laurentides.">
+<meta property="og:image" content="https://codelf.github.io/assets/og.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="theme-color" content="#FAFAF7">
+<link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+<link rel="preload" href="assets/fonts/newsreader-latin-opsz-normal.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="assets/fonts/ibm-plex-sans-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="assets/site.css">
+<script>
+  document.documentElement.classList.add('js');
+  try { if (location.hash === '#en' || (location.hash !== '#fr' && localStorage.getItem('lang') === 'en')) document.documentElement.classList.add('lang-pending'); } catch (e) {}
+  setTimeout(function () { document.documentElement.classList.remove('lang-pending'); }, 1500);
+</script>
+</head>
+<body>
+
+<a class="skip" href="#contenu" data-i18n="skip">Aller au contenu</a>
+
+<canvas id="scene" aria-hidden="true"></canvas>
+
+<header class="nav" id="nav">
+  <div class="wrap nav-in">
+    <a href="#top" class="brand">Nicolas Delffon</a>
+    <nav class="nav-links" aria-label="Navigation principale">
+      <a href="#methode" data-i18n="nav.methode">Démarche</a>
+      <a href="#realisations" data-i18n="nav.realisations">Réalisations</a>
+      <a href="#aide" data-i18n="nav.aide">Ce que je fais</a>
+      <a href="#apropos" data-i18n="nav.apropos">À propos</a>
+    </nav>
+    <div class="nav-actions">
+      <button type="button" class="lang" id="lang" aria-label="Switch to English">EN</button>
+      <a href="#contact" class="btn btn-sm btn-solid" data-i18n="nav.cta">M’écrire</a>
+    </div>
+  </div>
+</header>
+
+<main id="contenu">
+
+  <!-- ─────────── Ouverture ─────────── -->
+  <section class="hero" id="top">
+    <div class="contours hero-contours" aria-hidden="true"></div>
+    <div class="wrap">
+      <div class="hero-in">
+        <p class="hero-kicker" data-i18n="hero.kicker">Conseil en données et en intelligence artificielle. Sainte-Adèle, Laurentides.</p>
+        <h1 class="hero-title">
+          <span class="line l1"><span class="line-i" data-i18n="hero.l1">Des outils à la hauteur</span></span>
+          <span class="line l2"><span class="line-i" data-i18n="hero.l2">de votre mission.</span></span>
+        </h1>
+        <p class="hero-sub" data-i18n="hero.sub">J’accompagne les organisations qui veulent mettre leurs données et l’intelligence artificielle au service de leur mission : alléger le travail répétitif, éclairer les décisions et rendre aux équipes du temps pour l’essentiel.</p>
+        <div class="hero-cta">
+          <a href="#contact" class="btn btn-solid" data-i18n="hero.cta1">M’écrire</a>
+          <a href="#methode" class="btn btn-ghost" data-i18n="hero.cta2">Voir ma démarche</a>
+        </div>
+        <p class="hero-sign" data-i18n="hero.sign">Nicolas Delffon. Informaticien et urbaniste de formation, vingt ans d’expérience en données et en géomatique.</p>
+      </div>
+    </div>
+    <p class="hero-note"><span class="cue" aria-hidden="true"></span><span data-i18n="hero.note">Relevé simulé. <span class="hover-only">Survolez-le : la carte apparaît dessous. </span>Faites défiler : il devient un outil.</span></p>
+  </section>
+
+  <!-- ─────────── Démarche : le défilement transforme le relevé ─────────── -->
+  <section class="voyage" id="methode" aria-label="Ma démarche, du premier échange à l’outil transmis">
+    <div class="voyage-sticky" id="sticky">
+      <div class="labels" id="labels" aria-hidden="true">
+        <span class="lab lab-topo" data-state="1" data-at="-0.55,-0.10" data-i18n="lab.demandes">Demandes</span>
+        <span class="lab lab-topo" data-state="1" data-at="0.72,0.12" data-i18n="lab.terrain">Terrain</span>
+        <span class="lab lab-topo" data-state="1" data-at="0.20,-0.32" data-i18n="lab.fin">Finances</span>
+        <span class="lab lab-topo" data-keep data-state="1" data-at="-0.05,0.36" data-i18n="lab.projets">Projets</span>
+        <span class="lab lab-topo" data-keep data-state="1" data-at="-0.98,0.40" data-i18n="lab.docs">Documents</span>
+        <span class="lab lab-tag" data-state="2" data-at="-0.55,-0.10" data-dy="-0.25" data-i18n="lab.c1">Chantier 1</span>
+        <span class="lab lab-tag" data-state="2" data-at="0.72,0.12" data-dy="-0.21" data-i18n="lab.c2">Chantier 2</span>
+        <span class="lab lab-tag" data-state="2" data-at="0.20,-0.32" data-dy="-0.19" data-i18n="lab.c3">Chantier 3</span>
+        <span class="lab lab-node" data-state="3" data-node="0" data-i18n="lab.plan">planifie</span>
+        <span class="lab lab-node" data-state="3" data-node="1" data-i18n="lab.dev">développe</span>
+        <span class="lab lab-node" data-state="3" data-node="2" data-i18n="lab.qa">vérifie</span>
+        <span class="lab lab-human" data-state="3" data-node="c" data-i18n="lab.human">une personne en répond</span>
+      </div>
+      <div class="wrap voyage-in">
+        <ol class="chapters">
+          <li class="chapter">
+            <span class="chapter-n">1 / 4</span>
+            <h2 data-i18n="ch1.t">Comprendre</h2>
+            <p data-i18n="ch1.p">Tout commence par les personnes qui font le travail. Comment une demande arrive, qui la traite, où elle attend, où elle se perd. Nous en tirons une carte que toute l’équipe peut lire et corriger.</p>
+            <span class="chip" data-i18n="ch1.chip">Une carte de vos façons de faire, relue par l’équipe</span>
+          </li>
+          <li class="chapter">
+            <span class="chapter-n">2 / 4</span>
+            <h2 data-i18n="ch2.t">Choisir</h2>
+            <p data-i18n="ch2.p">Tout ne mérite pas un outil. Nous retenons les chantiers qui auront le plus d’effet, à un coût que l’organisation peut porter. Parfois, la meilleure réponse est une règle plus claire ou un dossier mieux organisé.</p>
+            <span class="chip" data-i18n="ch2.chip">Des chantiers prioritaires, avec leur coût et leurs limites</span>
+          </li>
+          <li class="chapter">
+            <span class="chapter-n">3 / 4</span>
+            <h2 data-i18n="ch3.t">Construire</h2>
+            <p data-i18n="ch3.p">Je construis version après version, et vous voyez chaque étape. Des agents IA réalisent une grande part du développement et se contrôlent entre eux ; je dirige le travail et j’en réponds. Vos commentaires orientent la suite.</p>
+            <span class="chip" data-i18n="ch3.chip">Des versions que l’équipe essaie à chaque étape</span>
+          </li>
+          <li class="chapter">
+            <span class="chapter-n">4 / 4</span>
+            <h2 data-i18n="ch4.t">Transmettre</h2>
+            <p data-i18n="ch4.p">Un outil n’a de valeur que si l’équipe se l’approprie. Je le documente, je forme les personnes qui s’en serviront et je reste joignable. Là où il y a de l’IA, une personne garde le dernier mot.</p>
+            <span class="chip" data-i18n="ch4.chip">Un outil documenté et une équipe qui le maîtrise</span>
+          </li>
+        </ol>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─────────── Conviction ─────────── -->
+  <section class="manifeste" id="manifeste">
+    <div class="wrap">
+      <p class="manifeste-text" id="manifesteText" data-i18n="manifeste">La technologie n’est pas le but. Le but, c’est qu’une équipe passe moins de temps dans ses tableurs et plus de temps avec les gens qu’elle sert.</p>
+    </div>
+  </section>
+
+  <!-- ─────────── Réalisations : ce que ça change ─────────── -->
+  <section class="milieux" id="realisations">
+    <div class="wrap">
+      <div class="sec-head">
+        <h2 data-i18n="real.h">Ce que ça change, concrètement</h2>
+      </div>
+
+      <article class="milieu">
+        <h3 data-i18n="r1.t">Rendre du temps aux équipes</h3>
+      </article>
+
+      <article class="milieu">
+        <h3 data-i18n="r2.t">Faire parler les données</h3>
+      </article>
+
+      <article class="milieu">
+        <h3 data-i18n="r3.t">Préserver la mémoire d’une organisation</h3>
+      </article>
+
+      <article class="milieu">
+        <h3 data-i18n="r4.t">Mieux connaître un territoire</h3>
+      </article>
+    </div>
+  </section>
+
+  <!-- ─────────── Ce que je peux faire ─────────── -->
+  <section class="aides" id="aide">
+    <div class="wrap">
+      <div class="sec-head">
+        <h2 data-i18n="aides.h">Ce que je peux faire avec vous</h2>
+        <p data-i18n="aides.sub">Quatre façons de commencer. Chacune peut se suffire à elle-même ou mener à la suivante.</p>
+      </div>
+      <div class="aide-list">
+        <article class="aide">
+          <svg class="glyph" viewBox="0 0 48 48" aria-hidden="true"><path d="M24 7 41 38H7Z"/><circle class="a f" cx="24" cy="28" r="3"/><path class="a" d="M3 44h42"/></svg>
+          <div>
+            <h3 data-i18n="m1.t">Voir clair</h3>
+            <p class="k" data-i18n="m1.k">Diagnostic et feuille de route</p>
+          </div>
+          <div>
+            <p class="d" data-i18n="m1.p">Nous examinons vos façons de faire, vos données et vos outils, avec les personnes qui font le travail. Vous repartez avec une feuille de route claire : les chantiers qui comptent, dans quel ordre, à quel coût.</p>
+            <p class="w" data-i18n="m1.w">Mon engagement : vous dire quand la meilleure réponse n’est pas numérique.</p>
+          </div>
+        </article>
+        <article class="aide">
+          <svg class="glyph" viewBox="0 0 48 48" aria-hidden="true"><path d="M4 36c6-2 8-12 14-14" stroke-dasharray="3 4"/><path class="a" d="M18 22c6-2 10 8 16 4s6-12 10-14"/><circle class="f" cx="4" cy="36" r="2.5"/><circle class="a f" cx="44" cy="12" r="3"/></svg>
+          <div>
+            <h3 data-i18n="m2.t">Libérer du temps</h3>
+            <p class="k" data-i18n="m2.k">Automatisation</p>
+          </div>
+          <div>
+            <p class="d" data-i18n="m2.p">Saisies en double, classeurs devenus ingérables, contrôles faits ligne par ligne : je les remplace par des outils robustes et documentés, reliés à vos systèmes, pour que vos équipes se consacrent à leur mission.</p>
+            <p class="w" data-i18n="m2.w">Mon engagement : clarifier la façon de faire avant d’automatiser quoi que ce soit.</p>
+          </div>
+        </article>
+        <article class="aide">
+          <svg class="glyph" viewBox="0 0 48 48" aria-hidden="true"><path d="M24 11 39 36H9Z"/><circle class="a p" cx="24" cy="11" r="5"/><circle class="a p" cx="39" cy="36" r="5"/><circle class="a p" cx="9" cy="36" r="5"/></svg>
+          <div>
+            <h3 data-i18n="m3.t">Intégrer l’IA avec discernement</h3>
+            <p class="k" data-i18n="m3.k">Intelligence artificielle</p>
+          </div>
+          <div>
+            <p class="d" data-i18n="m3.p">Je place l’IA là où elle apporte une valeur réelle : lire des documents, préparer une analyse, repérer ce qui mérite l’attention. Une personne vérifie et garde la décision.</p>
+            <p class="w" data-i18n="m3.w">Mon engagement : vous dire franchement quand l’IA n’apporte rien.</p>
+          </div>
+        </article>
+        <article class="aide">
+          <svg class="glyph" viewBox="0 0 48 48" aria-hidden="true"><path d="M24 26 6 34l18 8 18-8Z"/><path d="M24 16 6 24l18 8 18-8Z" class="p"/><path class="a p" d="M24 6 6 14l18 8 18-8Z"/></svg>
+          <div>
+            <h3 data-i18n="m4.t">Bâtir des fondations solides</h3>
+            <p class="k" data-i18n="m4.k">Données, tableaux de bord et cartes</p>
+          </div>
+          <div>
+            <p class="d" data-i18n="m4.p">Une base de données fiable et documentée, puis des tableaux de bord et des cartes qui répondent aux questions qui comptent pour vous. La géomatique est mon premier métier : quand la question est « où ? », je suis chez moi.</p>
+            <p class="w" data-i18n="m4.w">Mon engagement : prévoir dès le départ qui entretiendra les données.</p>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─────────── À propos ─────────── -->
+  <section class="parcours" id="apropos">
+    <div class="wrap parcours-in">
+      <div class="parcours-text">
+        <h2 data-i18n="apropos.h">Qui je suis</h2>
+        <p data-i18n="apropos.p1">Je m’appelle Nicolas Delffon. Informaticien et urbaniste de formation, je mets depuis vingt ans les données et les cartes au service des organisations. J’ai fondé et dirigé Anagraph, un studio de géomatique, puis dirigé Jakarto, une entreprise de cartographie 3D.</p>
+        <p data-i18n="apropos.p2">Ce qui me guide : que la technologie serve les gens et le bien commun. Je mesure la valeur d’un outil au temps, à la clarté et à la confiance qu’il rend à une équipe.</p>
+        <p data-i18n="apropos.p3">Vous travaillez directement avec moi. Des agents IA réalisent une grande part du développement sous ma direction, ce qui me permet de mener plusieurs chantiers de front. Quand un projet demande une équipe, je sais la réunir et la diriger : je l’ai fait pendant onze ans.</p>
+        <p data-i18n="apropos.p4">J’habite Sainte-Adèle, dans les Laurentides.</p>
+      </div>
+      <ol class="itin" id="itin">
+        <i class="itin-fill" aria-hidden="true"></i>
+        <li>
+          <span class="when" data-i18n="w1.when">Avant 2015</span>
+          <h3 data-i18n="w1.t">Nature-Action Québec, puis Effigis</h3>
+          <p data-i18n="w1.p">Chef du département de géomatique d’un organisme en environnement, puis chargé de projets en firme.</p>
+        </li>
+        <li>
+          <span class="when" data-i18n="w2.when">2015 à 2023</span>
+          <h3 data-i18n="w2.t">Anagraph</h3>
+          <p data-i18n="w2.p">Fondateur et président d’un studio de géomatique : une équipe de dix spécialistes, des outils d’aide à la décision pour des clients publics et privés.</p>
+        </li>
+        <li>
+          <span class="when" data-i18n="w3.when">Bénévolat</span>
+          <h3 data-i18n="w3.t">Association canadienne des sciences géomatiques</h3>
+          <p data-i18n="w3.p">Président de la section de Montréal.</p>
+        </li>
+        <li>
+          <span class="when" data-i18n="w4.when">2023 à 2026</span>
+          <h3 data-i18n="w4.t">Jakarto</h3>
+          <p data-i18n="w4.p">Vice-président aux services professionnels, puis directeur général d’une entreprise de cartographie 3D et d’inventaires d’actifs par IA.</p>
+        </li>
+        <li class="now">
+          <span class="when" data-i18n="w5.when">Depuis 2026</span>
+          <h3 data-i18n="w5.t">Conseiller indépendant</h3>
+          <p data-i18n="w5.p">J’accompagne des organisations dans leurs projets de données et d’intelligence artificielle.</p>
+        </li>
+      </ol>
+    </div>
+  </section>
+
+  <section class="recrute">
+    <div class="wrap">
+      <div class="recrute-in">
+        <h3 data-i18n="recrute.h">Je suis aussi ouvert à un emploi.</h3>
+        <p data-i18n="recrute.p">Si votre organisation cherche quelqu’un pour diriger ses projets de données, de numérique ou d’intelligence artificielle, écrivez-moi. Un poste m’intéresse autant qu’un mandat, pourvu que le travail ait du sens.</p>
+      </div>
+    </div>
+  </section>
+</main>
+
+<!-- ─────────── Contact ─────────── -->
+<footer class="contact" id="contact">
+  <div class="contours" aria-hidden="true"></div>
+  <div class="wrap contact-in">
+    <h2 data-i18n="contact.h">Parlons de votre organisation.</h2>
+    <p class="lead" data-i18n="contact.p">Dites-moi ce que vous cherchez à accomplir. Un premier échange n’engage à rien, et si je ne suis pas la bonne personne, je vous le dirai franchement.</p>
+    <a class="mail" id="mail" href="mailto:nicolasdelffon@gmail.com">nicolasdelffon@gmail.com</a>
+    <div class="contact-row">
+      <button type="button" class="btn btn-sm" id="copy" data-i18n="contact.copy">Copier l’adresse</button>
+      <a class="btn btn-sm" href="tel:+15145819039">514 581-9039</a>
+      <a class="btn btn-sm" href="https://www.linkedin.com/in/nicolasdelffon/" rel="noopener">LinkedIn</a>
+      <span class="copied" id="copied" role="status" aria-live="polite"></span>
+    </div>
+    <div class="contact-foot">
+      <span data-i18n="contact.where">Sainte-Adèle, Laurentides. Partout au Québec, en français ou en anglais.</span>
+      <span class="mono"><span data-i18n="coords">45,95° N, 74,13° O</span> · © 2026 Nicolas Delffon</span>
+    </div>
+  </div>
+</footer>
+
+<script src="assets/site.js"></script>
+</body>
+</html>
