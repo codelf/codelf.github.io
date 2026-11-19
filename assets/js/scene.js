@@ -32,11 +32,11 @@ const X0 = -W / 2, Z0 = -D / 2, DX = W / NX, DZ = D / NZ;
 
 /* (cx, cz, amplitude, sx, sz, rotation). Les cinq premiers portent un nom sur la carte. */
 const HILLS = [
-  [-6.5, -1.5, 3.9, 3.5, 2.7, 0.5],    // Demandes
+  [-6.5, -1.5, 3.9, 3.5, 2.7, 0.5],    // Opérations
   [2.4, -4.8, 3.0, 3.2, 2.4, -0.4],    // Finances
-  [8.8, 1.6, 3.4, 2.9, 3.2, 0.2],      // Terrain
+  [8.8, 1.6, 3.4, 2.9, 3.2, 0.2],      // Marketing
   [-0.4, 5.3, 2.5, 3.8, 2.2, 0.1],     // Projets
-  [-11.8, 5.0, 2.1, 2.4, 2.4, 0.0],    // Documents
+  [-11.8, 5.0, 2.1, 2.4, 2.4, 0.0],    // Ressources humaines
   [4.9, 6.6, 1.4, 2.2, 1.6, 0.6],
   [-3.2, -7.0, 1.6, 2.6, 1.7, -0.2],
   [12.6, -4.4, 1.6, 2.2, 2.6, 0.4],
@@ -47,7 +47,7 @@ const HILLS = [
   [4.3, 2.7, -2.6, 0.95, 0.8, -0.2],
   [-9.5, 1.9, -2.4, 0.8, 1.25, 0.35],
 ];
-const NAMED = [0, 2, 1, 3, 4];          // ordre des étiquettes : Demandes, Terrain, Finances, Projets, Documents
+const NAMED = [0, 2, 1, 3, 4];          // ordre des étiquettes : Opérations, Marketing, Finances, Projets, Ressources humaines
 const SITE_HILLS = [0, 2, 1];           // chantiers 1, 2, 3
 
 function mulberry32(a) {
@@ -364,18 +364,23 @@ const routeFrag = /* glsl */`
 
 /* ─────────────── caméra : cible, distance, azimut, angle depuis la verticale ─────────────── */
 
+/* À partir de la carte révélée, le relief est vu de l'est : sa longueur part en profondeur et tient dans la zone libre,
+   qui est haute et étroite. Les cinq sommets nommés et les trois chantiers restent ainsi à l'écran. */
 const KEYS = [
   { s: 0.00, T: [0.4, 1.4, -0.6], d: 21.5, th: -0.14, ph: 1.420, off: [0.05, -0.20] },   // ouverture : le massif à l'horizon
-  { s: 1.00, T: [-4.4, 1.3, -0.8], d: 15.0, th: -0.50, ph: 1.250, off: [0.19, 0.03] },   // Comprendre : au ras du relevé
-  { s: 1.80, T: [0.2, 0.9, 0.4], d: 25.0, th: -0.34, ph: 1.170, off: [0.20, 0.04] },     // … la carte entière apparaît
-  { s: 2.50, T: [1.6, 0.6, -1.6], d: 28.0, th: 0.50, ph: 1.000, off: [0.165, 0.04] },    // Choisir : trois chantiers
-  { s: 3.45, T: [2.2, 0.9, -1.6], d: 25.0, th: 0.62, ph: 1.100, off: [0.155, 0.03] },    // Construire : la boucle
-  { s: 4.10, T: [0.8, 0.5, -0.9], d: 26.0, th: 0.36, ph: 0.600, off: [0.15, 0.02] },     // on s'élève
-  { s: 4.72, T: [0.0, 0.0, 0.0], d: 36.0, th: 0.00, ph: 0.045, off: [0.13, 0.00] },      // Transmettre : la carte, vue en plan
-  { s: 5.00, T: [0.0, 0.0, 0.0], d: 37.0, th: 0.00, ph: 0.045, off: [0.13, 0.00] },
+  { s: 1.00, T: [-4.4, 1.3, -0.8], d: 15.0, th: 0.10, ph: 1.250, off: [0.19, 0.03] },    // Comprendre : au ras du relevé
+  { s: 1.80, T: [-1.0, 0.8, -0.2], d: 30.0, th: 1.45, ph: 1.050, off: [0.16, 0.05], dp: 1.15 }, // … la carte entière apparaît, vue de l'est
+  { s: 2.50, T: [0.6, 0.6, -1.0], d: 27.0, th: 1.65, ph: 0.980, off: [0.16, 0.04] },     // Choisir : trois chantiers
+  { s: 3.45, T: [1.2, 0.9, -1.2], d: 22.0, th: 1.77, ph: 1.080, off: [0.16, 0.03] },     // Construire : la boucle
+  { s: 4.10, T: [0.0, 0.5, -0.8], d: 28.0, th: 1.66, ph: 0.600, off: [0.16, 0.02] },     // on s'élève
+  { s: 4.72, T: [-0.875, 0.0, -0.5], d: 44.0, th: 1.5708, ph: 0.045, off: [0.16, 0.00] }, // Transmettre : la carte en plan (distance et centrage : voir planFrame)
+  { s: 5.00, T: [-0.875, 0.0, -0.5], d: 44.0, th: 1.5708, ph: 0.045, off: [0.16, 0.00] },
 ];
+/* l'île, pour cadrer la carte en plan : longueur (axe x) et largeur (axe z) de la terre émergée */
+const ISLAND = { long: 27.25, large: 19 };
 const CONTACT = { T: [-5.6, 2.6, -1.9], d: 12.5, th: -1.02, ph: 1.30, off: [0.20, 0.03] };
 
+let keyDp = 0.8;          // en portrait, la distance de chaque cadrage est multipliée par dp (0,8 sauf mention)
 function evalKeys(s, out) {
   let a = KEYS[0], b = KEYS[KEYS.length - 1];
   if (s <= a.s) b = a;
@@ -385,6 +390,7 @@ function evalKeys(s, out) {
   out.tx = lerp(a.T[0], b.T[0], t); out.ty = lerp(a.T[1], b.T[1], t); out.tz = lerp(a.T[2], b.T[2], t);
   out.d = lerp(a.d, b.d, t); out.th = lerp(a.th, b.th, t); out.ph = lerp(a.ph, b.ph, t);
   out.ox = lerp(a.off[0], b.off[0], t); out.oy = lerp(a.off[1], b.off[1], t);
+  keyDp = lerp(a.dp || 0.8, b.dp || 0.8, t);
   return out;
 }
 
@@ -577,7 +583,8 @@ export function createScene(canvas, { labels = [], coarse = false } = {}) {
     lensOn: 0, lensAuto: true, lensTx: 0, lensTz: 0, lensR: 0, lensHas: false,
     cam: { tx: 0, ty: 0, tz: 0, d: 20, th: 0, ph: 1, ox: 0, oy: 0 }, camInit: false,
     quality: 1, slow: 0, frames: 0,
-    stacked: false, clearX: 0.43, clearR: 0.9, clearY: 0.5,  // zone libre pour les étiquettes (voir setClear)
+    /* où le texte et le repère d'étapes se trouvent, en fractions de l'écran (voir setClear) */
+    stacked: false, zones: [], clearR: 0.9, railTop: 0.4, railBottom: 0.6,
   };
   const tmp = { tx: 0, ty: 0, tz: 0, d: 0, th: 0, ph: 0, ox: 0, oy: 0 };
   const P = {};
@@ -587,8 +594,38 @@ export function createScene(canvas, { labels = [], coarse = false } = {}) {
 
   const labelNodes = Array.from(labels).map((el) => {
     const [kind, i] = (el.dataset.anchor || '').split(':');
-    return { el, kind, i: +i || 0, o: -1 };
+    return { el, kind, i: +i || 0, o: -1, to: 0, w: el.offsetWidth || 90, h: el.offsetHeight || 22, x: 0, y: 0, py: 0, dy: 0 };
   });
+  const order = [];
+
+  /* La zone qu'occupe le texte du chapitre en cours, en fractions de l'écran : x (bord droit du texte), top et bottom
+     (sa hauteur), y (son bas, quand il est au-dessus du relief). Elle s'élargit vers celle du chapitre suivant pendant
+     le fondu, et ne rétrécit qu'une fois l'ancien texte parti : une étiquette ne passe jamais sur un texte visible. */
+  const Z = { x: 0.43, top: 0.25, bottom: 0.78, y: 0.5 };
+  function currentZone() {
+    const z = st.zones;
+    if (!z.length) return;
+    const f = clamp(st.story - 1, 0, z.length - 0.001), i = f | 0, a = z[i], b = z[i + 1], q = z[i - 1];
+    const up = ramp(f - i, 0.82, 1), down = 1 - ramp(f - i, 0, 0.15);
+    const env = (key, pick) => {
+      let v = a[key];
+      if (b) v = pick(v, lerp(a[key], b[key], up));
+      if (q) v = pick(v, lerp(a[key], q[key], down));
+      return v;
+    };
+    Z.x = env('x', Math.max); Z.top = env('top', Math.min); Z.bottom = env('bottom', Math.max); Z.y = env('y', Math.max);
+  }
+
+  /* La carte en plan se cadre d'elle-même dans la zone laissée libre : à droite du texte, ou sous lui sur téléphone. */
+  const plan = { d: 50, ox: 0, oy: 0 };
+  function planFrame() {
+    let x0, x1, y0, y1;
+    if (st.stacked) { x0 = 0.05; x1 = 0.95; y0 = Z.y + 0.01; y1 = st.railTop - 0.03; }
+    else { x0 = Z.x + 0.01; x1 = st.clearR - 0.01; y0 = 0.1; y1 = 0.95; }
+    const k = 2 * Math.tan((camera.fov * Math.PI) / 360);            // hauteur visible par unité de distance
+    plan.d = Math.max(ISLAND.long / (k * (y1 - y0)), ISLAND.large / (k * st.aspect * (x1 - x0))) * 1.03;
+    plan.ox = (x0 + x1) / 2 - 0.5; plan.oy = (y0 + y1) / 2 - 0.5;
+  }
 
   function resize() {
     const w = canvas.clientWidth || window.innerWidth, h = canvas.clientHeight || window.innerHeight;
@@ -648,14 +685,25 @@ export function createScene(canvas, { labels = [], coarse = false } = {}) {
     } else evalKeys(st.story, tmp);
     /* les cadrages sont réglés pour un écran très large (1,9) : ailleurs, la caméra recule pour garder la même largeur de relief */
     let fit = clamp(1.9 / st.aspect, 1, 2.25);
-    if (st.portrait) {
-      const flat = contact ? 0 : ramp(st.story, 4.1, 4.72);
-      /* en portrait, la caméra tourne : les trois chantiers tiennent dans la largeur, puis la carte se lit dans sa longueur */
-      tmp.th += lerp(ramp(st.story, 1.85, 2.45) * 1.15, Math.PI * 0.5, flat);
-      tmp.ox = contact ? 0.06 : 0; tmp.oy = contact ? -0.2 : lerp(lerp(-0.1, 0.22, ramp(st.story, 0.55, 1.0)), 0.17, flat);
-      fit = lerp(fit, fit * 0.8, 1 - flat) * (contact ? 0.62 : 1);
+    currentZone();
+    if (st.stacked) {
+      /* texte au-dessus du relief (téléphone) : le relief se centre dans l'espace resté libre dessous,
+         et recule quand cet espace est court (petit écran, texte long) */
+      const w = ramp(st.story, 0.55, 1.0), free = Math.max(0.2, st.railTop - Z.y);
+      tmp.ox = contact ? 0.06 : 0; tmp.oy = contact ? -0.2 : lerp(-0.1, (Z.y + st.railTop) / 2 - 0.5, w);
+      fit *= contact ? 0.5 : keyDp * lerp(1, clamp(0.47 / free, 1, 1.5), w);
+    } else if (!contact) {
+      /* texte à gauche : le relief se centre dans la zone libre, et recule quand elle est étroite */
+      const w = ramp(st.story, 0.6, 1.0), free = Math.max(0.2, st.clearR - Z.x);
+      tmp.ox = lerp(tmp.ox, (Z.x + st.clearR) / 2 - 0.5, w);
+      fit *= lerp(1, clamp(0.48 / free, 1, 1.6), w);
     }
     tmp.d *= fit;
+    const flat = contact ? 0 : ramp(st.story, 4.1, 4.72);
+    if (flat > 0) {
+      planFrame();
+      tmp.d = lerp(tmp.d, plan.d, flat); tmp.ox = lerp(tmp.ox, plan.ox, flat); tmp.oy = lerp(tmp.oy, plan.oy, flat);
+    }
     const cam = st.cam;
     if (!st.camInit) { Object.assign(cam, tmp); st.camInit = true; }
     else for (const key in tmp) cam[key] += (tmp[key] - cam[key]) * k;
@@ -721,6 +769,7 @@ export function createScene(canvas, { labels = [], coarse = false } = {}) {
     }
 
     /* étiquettes HTML accrochées au relief */
+    let shown = 0;
     for (let i = 0; i < labelNodes.length; i++) {
       const L = labelNodes[i];
       let o = 0;
@@ -733,15 +782,49 @@ export function createScene(canvas, { labels = [], coarse = false } = {}) {
         const sx = v3b.x * 0.5 + 0.5, sy = -v3b.y * 0.5 + 0.5;
         if (v3b.z > 1 || v3b.z < -1) o = 0;
         else {
-          /* une étiquette s'efface avant de toucher le texte du chapitre, le repère d'étapes ou le bord de l'écran */
-          o *= st.stacked
-            ? ramp(sy, st.clearY - 0.015, st.clearY + 0.02) * (1 - ramp(sy, 0.86, 0.9)) * ramp(sx, 0.1, 0.17) * (1 - ramp(sx, 0.83, 0.9))
-            : ramp(sx, st.clearX - 0.02, st.clearX + 0.02) * (1 - ramp(sx, st.clearR - 0.02, st.clearR + 0.02));
-          L.el.style.transform = `translate3d(${(sx * st.w).toFixed(1)}px,${(sy * st.h).toFixed(1)}px,0) translate(-50%,-100%)`;
+          /* lo et hi : la bande horizontale où l'étiquette peut se poser, à sa hauteur */
+          let lo = 0, hi = 1;
+          if (st.stacked) {
+            o *= ramp(sy, Z.y - 0.015, Z.y + 0.02) * (1 - ramp(sy, st.railTop - 0.045, st.railTop - 0.01));
+          } else {
+            const inText = ramp(sy, Z.top - 0.05, Z.top - 0.01) * (1 - ramp(sy, Z.bottom + 0.03, Z.bottom + 0.07));
+            const inRail = ramp(sy, st.railTop - 0.05, st.railTop - 0.01) * (1 - ramp(sy, st.railBottom + 0.03, st.railBottom + 0.07));
+            lo = Z.x * inText; hi = 1 - (1 - st.clearR) * inRail;
+          }
+          o *= ramp(sx, lo - 0.02, lo + 0.015) * (1 - ramp(sx, hi - 0.015, hi + 0.02));
+          const half = (L.w / 2 + 10) / st.w;
+          L.x = clamp(sx, lo + half, Math.max(lo + half, hi - half)) * st.w; L.y = sy * st.h;
         }
       }
-      o = o < 0.01 ? 0 : Math.round(o * 100) / 100;
-      if (o !== L.o) { L.el.style.opacity = o; L.o = o; }
+      L.to = o < 0.01 ? 0 : Math.round(o * 100) / 100;
+      if (L.to > 0) order[shown++] = L;
+    }
+    /* deux étiquettes qui se recouvrent : celle du haut monte d'un cran. On les prend du bas de l'écran vers le haut. */
+    for (let i = 1; i < shown; i++) {
+      const L = order[i];
+      let j = i - 1;
+      while (j >= 0 && order[j].y < L.y) { order[j + 1] = order[j]; j--; }
+      order[j + 1] = L;
+    }
+    for (let i = 0; i < shown; i++) {
+      const L = order[i];
+      let y = L.y;
+      for (let pass = 0; pass < 3; pass++) {
+        for (let j = 0; j < i; j++) {
+          const M = order[j];
+          if (Math.abs(L.x - M.x) < (L.w + M.w) / 2 + 6 && Math.abs(y - M.py) < M.h + 4) y = M.py - M.h - 4;
+        }
+      }
+      L.py = y;
+    }
+    for (let i = 0; i < labelNodes.length; i++) {
+      const L = labelNodes[i];
+      if (L.to > 0) {
+        const shift = L.py - L.y;
+        L.dy = L.o > 0 ? L.dy + (shift - L.dy) * k : shift;          // une étiquette qui apparaît se pose directement à sa place
+        L.el.style.transform = `translate3d(${L.x.toFixed(1)}px,${(L.y + L.dy).toFixed(1)}px,0) translate(-50%,-100%)`;
+      }
+      if (L.to !== L.o) { L.el.style.opacity = L.to; L.o = L.to; }
     }
   }
 
@@ -777,8 +860,12 @@ export function createScene(canvas, { labels = [], coarse = false } = {}) {
     setAll(v) { st.all = v; },
     setInks() { applyInks(); if (!st.running) renderOnce(); },
     setPointer,
-    /* zone libre pour les étiquettes, en fractions de l'écran : à droite de x, à gauche de r, sous y (portrait) */
-    setClear({ stacked, x, r, y }) { st.stacked = stacked; st.clearX = x; st.clearR = r; st.clearY = y; },
+    /* où se trouvent le texte des chapitres et le repère d'étapes, en fractions de l'écran */
+    setClear(zone) {
+      st.stacked = zone.stacked; st.zones = zone.chapters; st.clearR = zone.r; st.railTop = zone.railTop; st.railBottom = zone.railBottom;
+      labelNodes.forEach((L) => { L.w = L.el.offsetWidth || L.w; L.h = L.el.offsetHeight || L.h; });   // leur taille change avec la langue
+      if (!st.running) renderOnce();
+    },
     setPaused(p) { st.paused = !!p; },
     setRunning(r) {
       if (r === st.running) return;

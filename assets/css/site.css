@@ -211,11 +211,11 @@ html[data-nav="papier"] .mark .dot, html[data-nav="papier-2"] .mark .dot { fill:
   content: ""; position: absolute; left: 0; top: 0; width: min(52vw, 660px); height: min(40vh, 330px);
   background: radial-gradient(ellipse 62% 62% at 24% 34%, var(--sol) 0%, rgb(var(--sol-rgb) / 0.92) 42%, rgb(var(--sol-rgb) / 0) 100%);
 }
-.hero-place { grid-column: 1 / span 4; grid-row: 1; max-width: 27ch; font-weight: 500; font-size: 0.98rem; line-height: 1.35; color: var(--sur-sol); }
+.hero-place { grid-column: 1 / span 5; grid-row: 1; max-width: 40ch; font-weight: 500; font-size: 0.98rem; line-height: 1.35; color: var(--sur-sol); }
 .hero-place span { display: block; }
 .hero-title {
   grid-column: 1 / span 8; grid-row: 3; align-self: end;
-  font-size: clamp(2.6rem, 7.1vw, 6.75rem); line-height: 0.94; letter-spacing: -0.035em;
+  font-size: clamp(2.9rem, 8.7vw, 8.4rem); line-height: 0.92; letter-spacing: -0.04em;
 }
 .hero-title .line { display: block; overflow: hidden; overflow: clip; padding-block: 0.06em 0.1em; margin-block: -0.06em -0.1em; }
 .hero-title .line-i { display: block; }
@@ -440,13 +440,14 @@ html[data-nav="papier"] .mark .dot, html[data-nav="papier-2"] .mark .dot { fill:
   .hero-place { grid-column: 1 / -1; max-width: 26ch; }
   .hero-side { grid-column: 1 / -1; }
   .hero-in { grid-template-rows: auto minmax(26svh, 1fr) auto auto auto; }
-  .hero-title { font-size: clamp(2.2rem, 10.3vw, 4.4rem); }
-  .hero-scrim { background: linear-gradient(180deg, rgb(var(--sol-rgb) / 0) 22%, rgb(var(--sol-rgb) / 0.86) 52%, var(--sol) 82%); }
+  .hero-title { font-size: clamp(2.6rem, 13.2vw, 4.8rem); }
+  .hero-scrim { background: linear-gradient(180deg, rgb(var(--sol-rgb) / 0) 18%, rgb(var(--sol-rgb) / 0.9) 43%, var(--sol) 68%); }
   .btn { min-height: 52px; }
   .btn-sm { min-height: 44px; }
   .hero-cta .btn { flex: 1 1 auto; }
 
-  .stage-scrim { background: linear-gradient(180deg, var(--sol) 0%, rgb(var(--sol-rgb) / 0.92) 34%, rgb(var(--sol-rgb) / 0) 60%); }
+  /* --texte-bas : le bas du plus long chapitre, mesuré par le script. Le voile reste plein jusque-là. */
+  .stage-scrim { background: linear-gradient(180deg, var(--sol) 0%, rgb(var(--sol-rgb) / 0.95) calc(var(--texte-bas, 38%) - 3%), rgb(var(--sol-rgb) / 0) calc(var(--texte-bas, 38%) + 13%)); }
   .voyage-in { align-items: start; }
   .chapters { grid-column: 1 / -1; height: 62svh; }
   .chapter { justify-content: flex-start; padding-top: calc(var(--nav-h) + 22px); }

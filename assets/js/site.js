@@ -140,16 +140,21 @@ function measureClear() {
   const box = stage.getBoundingClientRect(), range = document.createRange();
   if (!box.width || !box.height) return;
   const top = $('.chapters').getBoundingClientRect().top - box.top;
-  let right = 0, bottom = 0;
-  $$('.chapter').forEach((ch) => {
-    $$('.clip-i, .chapter-p, .livrable span', ch).forEach((el) => { range.selectNodeContents(el); right = Math.max(right, range.getBoundingClientRect().right - box.left); });
-    const last = $('.livrable', ch);
-    bottom = Math.max(bottom, top + last.offsetTop + last.offsetHeight);
-  });
   const rail = $('.rail').getBoundingClientRect();
+  /* une zone par chapitre : la largeur et la hauteur du texte changent de l'un à l'autre */
+  const chapters = $$('.chapter').map((ch) => {
+    let right = 0;
+    $$('.clip-i, .chapter-p, .livrable span', ch).forEach((el) => { range.selectNodeContents(el); right = Math.max(right, range.getBoundingClientRect().right - box.left); });
+    const last = $('.livrable', ch), bottom = top + last.offsetTop + last.offsetHeight;
+    return { x: (right + 48) / box.width, top: (top + $('h2', ch).offsetTop) / box.height, bottom: bottom / box.height, y: (bottom + 40) / box.height };
+  });
+  /* sur téléphone, le voile qui porte le texte descend jusqu'au bas du plus long chapitre */
+  stage.style.setProperty('--texte-bas', (Math.max(...chapters.map((c) => c.bottom)) * 100).toFixed(1) + '%');
   scene.setClear({
     stacked: matchMedia('(max-width: 760px)').matches,       // texte au-dessus du relief, et non à sa gauche
-    x: (right + 60) / box.width, r: (rail.left - box.left - 56) / box.width, y: (bottom + 46) / box.height,
+    chapters,
+    r: (rail.left - box.left - 20) / box.width,
+    railTop: (rail.top - box.top) / box.height, railBottom: (rail.bottom - box.top) / box.height,
   });
 }
 
@@ -188,9 +193,11 @@ async function bootScene() {
 
   if (still) {
     /* animations réduites : une seule image, le relief déjà cartographié */
-    scene.setIntro(1); scene.setAll(1); scene.setStory(0); scene.renderOnce();
+    const narrow = matchMedia('(max-width: 760px)');
+    const frame = () => scene.setClear({ stacked: narrow.matches, chapters: [], r: 0.9, railTop: 0.4, railBottom: 0.6 });
+    scene.setIntro(1); scene.setAll(1); scene.setStory(0); frame();
     root.classList.add('gl-ready');
-    addEventListener('resize', () => { scene.resize(); scene.renderOnce(); });
+    addEventListener('resize', () => { scene.resize(); frame(); });
     return;
   }
 
