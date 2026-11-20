@@ -337,9 +337,9 @@ html[data-nav="papier"] .mark .dot, html[data-nav="papier-2"] .mark .dot { fill:
 .offre-titre { grid-area: t; }
 .offre-texte { grid-area: d; margin-top: clamp(16px, 1.7vw, 26px); }
 .offre > .detail { grid-area: x; margin-top: 0.5em; }
-.symbole { grid-area: s; position: relative; z-index: 1; width: 64px; height: 64px; background: var(--papier); color: var(--fg); fill: none; stroke: currentColor; stroke-width: 2.5; stroke-linejoin: round; stroke-linecap: round; }
+.symbole { grid-area: s; position: relative; z-index: 1; width: 64px; height: 64px; background: var(--fond, var(--papier)); color: var(--fg); fill: none; stroke: currentColor; stroke-width: 2.5; stroke-linejoin: round; stroke-linecap: round; }
 .symbole .f { fill: currentColor; stroke: none; }
-.symbole .p { fill: var(--papier); }
+.symbole .p { fill: var(--fond, var(--papier)); }
 .symbole .a { stroke: var(--accent); }
 .symbole .a.f { fill: var(--accent); stroke: none; }
 .symbole .a.p { fill: var(--accent); }
@@ -352,6 +352,17 @@ html[data-nav="papier"] .mark .dot, html[data-nav="papier-2"] .mark .dot { fill:
   -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3E%3Cpath d='M4 19V1h2v1.300L17 6 6 9.700V19z'/%3E%3C/svg%3E") center / contain no-repeat;
           mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3E%3Cpath d='M4 19V1h2v1.300L17 6 6 9.700V19z'/%3E%3C/svg%3E") center / contain no-repeat;
 }
+
+/* la section sur le sol clair plutôt que sur le sapin : mêmes blocs, encres inversées.
+   Elle n'a pas de fenêtre sur le relief : son fond est plein. Pour revenir au sapin, remettre data-field="papier" dans la page. */
+.offres[data-field="sol"] {
+  background: var(--sol); color: var(--sur-sol);
+  --rule: var(--sur-sol); --trace: rgb(var(--trait-rgb) / 0.2); --fond: var(--sol);
+  padding-top: clamp(96px, 13vw, 200px);
+}
+.offres[data-field="sol"] .detail dd { color: var(--sur-sol-2); }
+/* la section qui précède ferme alors un bloc de couleur : elle reprend toute sa marge du bas */
+.effets:has(+ .offres[data-field="sol"]) { padding-bottom: clamp(96px, 13vw, 200px); }
 
 /* le détail d'un service : une liste réglée, comme la légende d'une carte */
 .detail { margin: 0; border-top: 1.5px solid var(--rule); }
